@@ -1,5 +1,17 @@
 $(document).ready(function ($) {
 
+  var success = function (data) {
+    loadImages(data);
+  };
+
+  var failure = function (error) {
+    console.log(`Error ${error}`);
+  };
+
+  invokeListApi(success, failure);
+});
+
+function invokeListApi(success, failure) {
   $.ajax({
     headers: {
       "Accept": "application/json",
@@ -8,15 +20,10 @@ $(document).ready(function ($) {
     url: 'https://picsum.photos/list',
     type: "GET",
     dataType: "json",
-    success: function (data) {
-      loadImages(data);
-    },
-    error: function (error) {
-      console.log(`Error ${error}`);
-    }
+    success: success,
+    error: failure
   });
-
-});
+};
 
 function loadImages(data) {
   var x = "", i = 1;
